@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evento Musical con Actividades</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .progress-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .progress-bar {
+            height: 12px;
+            background-color: #e9ecef;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
+            border-radius: 6px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .program-list {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .program-item {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .program-item:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .program-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-number {
+            width: 40px;
+            height: 40px;
+            background-color: #f0f4ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .song .item-number {
+            background-color: #e6f7ff;
+            color: #2575fc;
+        }
+        
+        .activity .item-number {
+            background-color: #fff0f6;
+            color: #eb2f96;
+        }
+        
+        .item-content {
+            flex-grow: 1;
+        }
+        
+        .item-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .item-subtitle {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        .item-actions {
+            margin-left: 15px;
+        }
+        
+        .status-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background-color: #f0f4ff;
+            color: #2575fc;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .status-btn.completed {
+            background-color: #52c41a;
+            color: white;
+        }
+        
+        .status-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .instructions {
+            background-color: #e6f7ff;
+            border-left: 4px solid #1890ff;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .instructions h3 {
+            color: #1890ff;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .song {
+            border-left: 4px solid #2575fc;
+        }
+        
+        .activity {
+            border-left: 4px solid #eb2f96;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .program-item {
+                padding: 15px;
+            }
+            
+            .item-title {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-music"></i> Evento Musical con Actividades</h1>
+            <p class="subtitle">Sigue el programa del evento, marca las canciones y actividades completadas</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="progress-container">
+            <div class="progress-info">
+                <div class="progress-text">
+                    <span id="completed-count">0</span> de <span id="total-count">17</span> elementos completados
+                </div>
+                <div class="progress-percent" id="progress-percent">0%</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+        
+        <div class="program-list" id="program-list">
+            <!-- Los elementos del programa se generarán con JavaScript -->
+        </div>
+        
+        <div class="instructions">
+            <h3><i class="fas fa-info-circle"></i> Instrucciones</h3>
+            <p>Esta página muestra el programa del evento con canciones y actividades intercaladas. Haz clic en el botón circular a la derecha de cada elemento para marcarlo como completado. El progreso general se actualizará automáticamente.</p>
+        </div>
+        
+        <footer>
+            <p>Programa del evento &copy; 2023 | Desarrollado para GitHub Pages</p>
+            <p><i class="fab fa-github"></i> Subido a GitHub para acceso público</p>
+        </footer>
+    </div>
+
+    <script>
+        // Datos del programa (canciones y actividades)
+        const programData = [
+            { type: 'song', title: 'La Ciudad Hermosa', subtitle: 'Canción de apertura' },
+            { type: 'song', title: 'Popurri Armonía Band', subtitle: 'Popurrí musical' },
+            { type: 'song', title: 'Gloriosa Mañana - Demos Gracia...', subtitle: 'El combo del rey medley' },
+            { type: 'song', title: 'La Chismosa', subtitle: 'Canción popular' },
+            { type: 'song', title: 'Mix Salsa', subtitle: 'Si tuvieras fe - este cortos es - oh Jerusalén' },
+            { type: 'activity', title: 'Actividad Grupal', subtitle: 'Dinámica de integración' },
+            { type: 'song', title: 'Salmos 23', subtitle: 'Canto espiritual' },
+            { type: 'song', title: 'Agradecimiento', subtitle: 'Canción de acción de gracias' },
+            { type: 'song', title: 'Cien Ovejas', subtitle: 'Canción infantil' },
+            { type: 'activity', title: 'Juego en Equipos', subtitle: 'Competencia por grupos' },
+            { type: 'song', title: 'Valle de Lágrimas', subtitle: 'Canción emotiva' },
+            { type: 'song', title: 'No Crezcas Más', subtitle: 'Canción sobre la niñez' },
+            { type: 'song', title: 'Princesas Mágicas', subtitle: 'Canción temática' },
+            { type: 'activity', title: 'Presentación Especial', subtitle: 'Momento destacado del evento' },
+            { type: 'song', title: 'Quinceañera Quinceañera', subtitle: 'Canción de celebración' },
+            { type: 'activity', title: 'Entrega de Reconocimientos', subtitle: 'Reconocimiento a participantes' },
+            { type: 'activity', title: 'Cierre del Evento', subtitle: 'Palabras finales y despedida' }
+        ];
+        
+        // Estado de la aplicación
+        let completedItems = JSON.parse(localStorage.getItem('completedItems')) || Array(programData.length).fill(false);
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProgram();
+            updateProgress();
+            
+            // Añadir evento al botón de reset (si se añade en el futuro)
+            document.getElementById('reset-btn')?.addEventListener('click', resetProgress);
+        });
+        
+        // Renderizar la lista del programa
+        function renderProgram() {
+            const programList = document.getElementById('program-list');
+            programList.innerHTML = '';
+            
+            programData.forEach((item, index) => {
+                const programItem = document.createElement('div');
+                programItem.className = `program-item ${item.type} ${completedItems[index] ? 'completed' : ''}`;
+                
+                // Determinar el tipo de elemento (canción o actividad)
+                const typeIcon = item.type === 'song' ? '<i class="fas fa-music"></i>' : '<i class="fas fa-users"></i>';
+                const typeText = item.type === 'song' ? 'Canción' : 'Actividad';
+                
+                programItem.innerHTML = `
+                    <div class="item-number">${index + 1}</div>
+                    <div class="item-content">
+                        <div class="item-title">${item.title}</div>
+                        <div class="item-subtitle">${typeText} • ${item.subtitle}</div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="status-btn ${completedItems[index] ? 'completed' : ''}" data-index="${index}">
+                            ${completedItems[index] ? '<i class="fas fa-check"></i>' : '<i class="fas fa-play"></i>'}
+                        </button>
+                    </div>
+                `;
+                
+                programList.appendChild(programItem);
+            });
+            
+            // Añadir event listeners a los botones
+            document.querySelectorAll('.status-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    toggleCompleted(index);
+                });
+            });
+        }
+        
+        // Cambiar el estado de completado de un elemento
+        function toggleCompleted(index) {
+            completedItems[index] = !completedItems[index];
+            localStorage.setItem('completedItems', JSON.stringify(completedItems));
+            renderProgram();
+            updateProgress();
+            
+            // Efecto visual de confirmación
+            const btn = document.querySelector(`.status-btn[data-index="${index}"]`);
+            btn.classList.add('pulse');
+            setTimeout(() => btn.classList.remove('pulse'), 300);
+        }
+        
+        // Actualizar la barra de progreso
+        function updateProgress() {
+            const totalItems = programData.length;
+            const completedCount = completedItems.filter(item => item).length;
+            const progressPercent = Math.round((completedCount / totalItems) * 100);
+            
+            document.getElementById('completed-count').textContent = completedCount;
+            document.getElementById('total-count').textContent = totalItems;
+            document.getElementById('progress-percent').textContent = `${progressPercent}%`;
+            document.getElementById('progress-fill').style.width = `${progressPercent}%`;
+            
+            // Cambiar color de la barra según el progreso
+            const progressFill = document.getElementById('progress-fill');
+            if (progressPercent < 30) {
+                progressFill.style.background = 'linear-gradient(90deg, #ff4d4f, #ff7a45)';
+            } else if (progressPercent < 70) {
+                progressFill.style.background = 'linear-gradient(90deg, #faad14, #ffc53d)';
+            } else {
+                progressFill.style.background = 'linear-gradient(90deg, #52c41a, #73d13d)';
+            }
+        }
+        
+        // Reiniciar el progreso (función disponible para futuras mejoras)
+        function resetProgress() {
+            if (confirm('¿Estás seguro de que quieres reiniciar todo el progreso?')) {
+                completedItems = Array(programData.length).fill(false);
+                localStorage.removeItem('completedItems');
+                renderProgram();
+                updateProgress();
+            }
+        }
+        
+        // Añadir estilos para animación
+        const style = document.createElement('style');
+        style.textContent = `
+            .pulse {
+                animation: pulse 0.3s ease-in-out;
+            }
+            
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.2); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
