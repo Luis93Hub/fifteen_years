@@ -3,22 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evento Musical con Actividades</title>
+    <title>Quinceañera - Programa del Evento</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <div class="decoration decoration-left"><i class="fas fa-crown"></i></div>
+    <div class="decoration decoration-right"><i class="fas fa-heart"></i></div>
+    
     <header>
         <div class="container">
-            <h1><i class="fas fa-music"></i> Evento Musical con Actividades</h1>
-            <p class="subtitle">Sigue el programa del evento, marca las canciones y actividades completadas</p>
+            <div class="header-content">
+                <div class="quince-icon">
+                    <i class="fas fa-crown"></i>
+                    <span class="quince-number">15</span>
+                </div>
+                <h1><i class="fas fa-birthday-cake"></i> Quinceañera - Programa del Evento</h1>
+                <p class="subtitle">Celebrando los 15 años de [Nombre de la Quinceañera]</p>
+                <div class="birthday-theme">
+                    <span class="theme-item"><i class="fas fa-gem"></i> Elegancia</span>
+                    <span class="theme-item"><i class="fas fa-music"></i> Música</span>
+                    <span class="theme-item"><i class="fas fa-heart"></i> Alegría</span>
+                </div>
+            </div>
         </div>
     </header>
+    
     <div class="container">
+        <div class="countdown-container" id="countdown-container">
+            <h3><i class="fas fa-clock"></i> Tiempo para el evento</h3>
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <span class="countdown-number" id="days">00</span>
+                    <span class="countdown-label">Días</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="hours">00</span>
+                    <span class="countdown-label">Horas</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="minutes">00</span>
+                    <span class="countdown-label">Minutos</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="seconds">00</span>
+                    <span class="countdown-label">Segundos</span>
+                </div>
+            </div>
+        </div>
+        
         <div class="progress-container">
             <div class="progress-info">
                 <div class="progress-text">
-                    <span id="completed-count">0</span> de <span id="total-count">17</span> elementos completados
+                    <span id="completed-count">0</span> de <span id="total-count">19</span> elementos completados
                 </div>
                 <div class="progress-percent" id="progress-percent">0%</div>
             </div>
@@ -33,14 +70,94 @@
         
         <div class="instructions">
             <h3><i class="fas fa-info-circle"></i> Instrucciones</h3>
-            <p>Esta página muestra el programa del evento con canciones y actividades intercaladas. Haz clic en el botón circular a la derecha de cada elemento para marcarlo como completado. El progreso general se actualizará automáticamente.</p>
+            <p>Esta página muestra el programa del evento de quinceañera con canciones y actividades. Haz clic en el botón circular a la derecha de cada elemento para marcarlo como completado. El botón rojo de YouTube <i class="fab fa-youtube" style="color: #ff0000;"></i> abre la canción en una nueva pestaña.</p>
         </div>
         
         <footer>
-            <p>Programa del evento &copy; 2023 | Desarrollado para GitHub Pages</p>
-            <p><i class="fab fa-github"></i> Subido a GitHub para acceso público</p>
+            <p>Celebrando 15 años de vida &copy; 2025 | Programa del evento de quinceañera</p>
+            <p><i class="fas fa-heart" style="color: #eb2f96;"></i> Que este día sea tan especial como tú <i class="fas fa-heart" style="color: #eb2f96;"></i></p>
         </footer>
     </div>
-    <script src="/script.js"></script>
+    
+    <div class="floating-elements">
+        <div class="floating-element floating-1"><i class="fas fa-star"></i></div>
+        <div class="floating-element floating-2"><i class="fas fa-gem"></i></div>
+        <div class="floating-element floating-3"><i class="fas fa-heart"></i></div>
+    </div>
+    
+    <script src="script.js"></script>
+        <script>
+        // Countdown para el evento - 28 de diciembre a las 6:00 PM
+        function getEventDate() {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            let eventYear = currentYear;
+            
+            // Si ya pasó el 28 de diciembre este año, usar el próximo año
+            const dec28ThisYear = new Date(currentYear, 11, 28, 18, 0, 0);
+            if (now > dec28ThisYear) {
+                eventYear = currentYear + 1;
+            }
+            
+            return new Date(eventYear, 11, 28, 18, 0, 0);
+        }
+        
+        const eventDate = getEventDate();
+        
+        // Mostrar la fecha del evento
+        const eventDateElement = document.createElement('p');
+        eventDateElement.className = 'event-date';
+        eventDateElement.innerHTML = `<i class="far fa-calendar-alt"></i> Evento: ${eventDate.toLocaleDateString('es-ES', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        })}`;
+        
+        // Insertar después del título del countdown
+        const countdownTitle = document.querySelector('.countdown-container h3');
+        if (countdownTitle) {
+            countdownTitle.insertAdjacentElement('afterend', eventDateElement);
+        }
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+            
+            // Si ya pasó la fecha, mostrar mensaje especial
+            if (distance < 0) {
+                document.getElementById('countdown-container').innerHTML = 
+                    '<div class="event-started">' +
+                    '<h3><i class="fas fa-glass-cheers"></i> ¡El evento está en curso!</h3>' +
+                    '<p>Celebrando los 15 años de [Nombre de la Quinceañera]. ¡Que sea un día inolvidable!</p>' +
+                    '<p><i class="far fa-calendar-check"></i> 28 de diciembre, 6:00 PM</p>' +
+                    '</div>';
+                return;
+            }
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            
+            // Cambiar estilo si faltan menos de 24 horas
+            const countdownContainer = document.getElementById('countdown-container');
+            if (days === 0 && hours < 24) {
+                countdownContainer.style.background = 'linear-gradient(135deg, #ff3366, #ff6699)';
+                countdownContainer.style.animation = 'pulse 2s infinite';
+            }
+        }
+        
+        // Actualizar cada segundo
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
 </body>
 </html>
